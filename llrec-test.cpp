@@ -67,10 +67,6 @@ void dealloc(Node* head)
 //   function object struct declarations
 // -----------------------------------------------
 
-
-
-
-
 int main(int argc, char* argv[])
 {
     if(argc < 2) {
@@ -86,10 +82,14 @@ int main(int argc, char* argv[])
     print(head);
 
     // Test out your linked list code
+    Node* s = NULL;
+    Node* l = NULL;
+    llpivot(head, s, l, 3);
 
-
-
+    cout << "Smaller list: ";
+    print(s);
+    cout << "Larger list: ";
+    print(l);
     
     return 0;
-
 }
