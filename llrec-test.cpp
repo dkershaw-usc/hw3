@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
     // Test out your linked list code
     Node* s = NULL;
     Node* l = NULL;
-    llpivot(head, s, l, 3);
+    llpivot(head, s, l, 10);
 
     cout << "Smaller list: ";
     print(s);

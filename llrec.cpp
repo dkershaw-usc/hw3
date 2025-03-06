@@ -7,13 +7,30 @@
 
 void llpivot(Node*& head, Node*& smaller, Node*& larger, int pivot)
 {
-    if(head == NULL) return;
-    if(head->val < pivot){
+    if(head == NULL)
+    {
+        return;
+    }
+    else if(head->val < pivot){
         smaller = head;
         llpivot(head->next, smaller->next, larger, pivot);
+        if(smaller->next != NULL)
+        {
+            if(smaller->next->val >= pivot)
+            {
+                smaller->next = NULL;
+            }
+        }
     }
-    if(head->val > pivot){
+    else{
         larger = head;
         llpivot(head->next, smaller, larger->next, pivot);
+        if(larger->next != NULL)
+        {
+            if(larger->next->val < pivot)
+            {
+                larger->next = NULL;
+            }
+        }
     }
 }
