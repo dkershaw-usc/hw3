@@ -90,6 +90,9 @@ int main(int argc, char* argv[])
     print(s);
     cout << "Larger list: ";
     print(l);
+
+    dealloc(s);
+    dealloc(l);
     
     return 0;
 }
