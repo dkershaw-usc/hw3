@@ -89,15 +89,12 @@ Node* llfilter(Node* head, Comp pred)
     else{
         head->next = llfilter(head->next, pred);
     }
-
     if(pred(head->val)){
-        // skip it in the current list
         Node* temp = head;
         head = head->next;
         delete temp;
         if(head == nullptr) return nullptr;
     }
-    
     return head;
 }
 
