@@ -16,9 +16,7 @@ void llpivot(Node*& head, Node*& smaller, Node*& larger, int pivot)
 
     Node* curr = head;
 
-    //iterate before
     head = head->next;
-    
     //unlink on the way in
     curr->next = nullptr;
 
