@@ -1,36 +1,39 @@
 #include "llrec.h"
+#include <iostream>
 
 //*********************************************
 // Provide your implementation of llpivot below
 //*********************************************
-
-
 void llpivot(Node*& head, Node*& smaller, Node*& larger, int pivot)
 {
-    if(head == NULL)
-    {
+    // appease the lord of unit testing
+    smaller = nullptr;
+    larger = nullptr;
+
+    if(head == nullptr){
         return;
     }
-    else if(head->val <= pivot){
-        smaller = head;
-        llpivot(head->next, smaller->next, larger, pivot);
-        if(smaller->next != NULL)
-        {
-            if(smaller->next->val > pivot)
-            {
-                smaller->next = NULL;
-            }
-        }
+
+    Node* curr = head;
+
+    //iterate before
+    head = head->next;
+    
+    //unlink on the way in
+    curr->next = nullptr;
+
+    //recurse smaller
+    if(curr->val <= pivot){
+        if(smaller == nullptr) smaller = curr;
+        else smaller->next = curr;
+
+        llpivot(head, smaller->next, larger, pivot);
     }
-    else{
-        larger = head;
-        llpivot(head->next, smaller, larger->next, pivot);
-        if(larger->next != NULL)
-        {
-            if(larger->next->val <= pivot)
-            {
-                larger->next = NULL;
-            }
-        }
+    //recurse larger
+    else if(curr->val > pivot){
+        if(larger == nullptr) larger = curr;
+        else larger->next = curr;
+
+        llpivot(head, smaller, larger->next, pivot);
     }
 }

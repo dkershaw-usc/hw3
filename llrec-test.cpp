@@ -90,6 +90,8 @@ int main(int argc, char* argv[])
     print(s);
     cout << "Larger list: ";
     print(l);
+    cout << "Original list after: ";
+    print(head);
 
     Node* m = NULL;
     llpivot(m, l, s, 0);
