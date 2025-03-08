@@ -86,6 +86,11 @@ int main(int argc, char* argv[])
     Node* l = NULL;
     llpivot(head, s, l, 9);
 
+    
+
+    std::less<int> func;
+    llfilter(l,func(l->val,5));
+
     cout << "Smaller list: ";
     print(s);
     cout << "Larger list: ";
@@ -95,6 +100,20 @@ int main(int argc, char* argv[])
 
     Node* m = NULL;
     llpivot(m, l, s, 0);
+
+    cout << "Smaller list nullified: ";
+    print(s);
+    cout << "Larger list nullified: ";
+    print(l);
+    cout << "Second original list nullified: ";
+    print(m);
+
+    cout << "Smaller list filtered: ";
+    print(s);
+    cout << "Larger list filtered: ";
+    print(l);
+    cout << "Original list filtered: ";
+    print(head);
 
     dealloc(s);
     dealloc(l);

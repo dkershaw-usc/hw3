@@ -78,6 +78,7 @@ private:
 template <typename T, typename PComparator>
 Heap<T,PComparator>::Heap(int m, PComparator c) : m_(m), comp_(c)
 {
+  c = PComparator();
 }
 
 template <typename T, typename PComparator>
