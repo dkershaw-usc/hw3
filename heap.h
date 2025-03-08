@@ -63,10 +63,12 @@ public:
 private:
   /// Add whatever helper functions and data members you need below
   size_t m_;
-  std::vector<T> data;
-  /// @brief Rearranges data to satisfy PComparator
+  PComparator comp_;
+  std::vector<T> data_;
+  /// @brief Rearranges data_ to satisfy PComparator
   /// @param idx index where operation occurred
-  void heapify(size_t idx);
+  void heapify_up(size_t idx);
+  void heapify_down(size_t idx);
   void swap(size_t a, size_t b);
 };
 
@@ -74,15 +76,13 @@ private:
 //############################################
 
 template <typename T, typename PComparator>
-Heap<T,PComparator>::Heap(int m, PComparator c)
+Heap<T,PComparator>::Heap(int m, PComparator c) : m_(m), comp_(c)
 {
-
 }
 
 template <typename T, typename PComparator>
 Heap<T,PComparator>::~Heap()
 {
-
 }
 
 template <typename T, typename PComparator>
@@ -91,25 +91,34 @@ void Heap<T,PComparator>::swap(size_t a, size_t b)
   if(a >= size() || b >= size()) return;
   if(empty()) throw std::underflow_error("Heap is empty.");
 
-  T temp = data[a];
-  data[a] = data[b];
-  data[b] = temp;
+  std::swap(data_[a], data_[b]);
 }
 
 template <typename T, typename PComparator>
-void Heap<T,PComparator>::heapify(size_t idx)
+void Heap<T,PComparator>::heapify_up(size_t idx)
 {
-  if(idx >= size()) return;
+  if(empty()) return;
+  if(idx == 0) return;
+
+  size_t parentIdx = ((idx-1) / m_);
+  if(comp_(data_[idx], data_[parentIdx])){
+    swap(parentIdx, idx);
+    heapify_up((parentIdx));
+  }
+}
+
+template <typename T, typename PComparator>
+void Heap<T,PComparator>::heapify_down(size_t idx)
+{
+  if(empty()) return;
 
   for(size_t i = 1; i <= m_; i++)
   {
-    if(idx+i >= size()) break;
-    // if any children "less than" their parent node
     size_t childIdx = (m_*idx)+i;
-    if(PComparator()(data[childIdx], data[idx])){
-      // swap 
-      swap(idx, childIdx);
-      heapify(childIdx);
+    if(childIdx >= size()) break;
+    if(comp_(data_[childIdx], data_[idx])){
+      swap(childIdx, idx);
+      heapify_down(childIdx);
     }
   }
 }
@@ -117,20 +126,20 @@ void Heap<T,PComparator>::heapify(size_t idx)
 template <typename T, typename PComparator>
 void Heap<T,PComparator>::push(const T& item)
 {
-  data.push_back(item);
-  heapify(data.size()-1);
+  data_.push_back(item);
+  heapify_up(size()-1);
 }
 
 template <typename T, typename PComparator>
 bool Heap<T,PComparator>::empty() const
 {
-  return data.empty();
+  return data_.empty();
 }
 
 template <typename T, typename PComparator>
 size_t Heap<T,PComparator>::size() const
 {
-  return data.size();
+  return data_.size();
 }
 
 /// @brief returns the top element
@@ -150,7 +159,7 @@ T const & Heap<T,PComparator>::top() const
   }
   // If we get here we know the heap has at least 1 item
   // Add code to return the top element
-  return data[0];
+  return data_.front();
 }
 
 /// @brief Removes the top element
@@ -165,9 +174,9 @@ void Heap<T,PComparator>::pop()
     // ================================
     throw std::underflow_error("Heap is empty.");
   }
-  swap(0,(size()-1));
-  data.pop_back();
-  heapify(0);
+  data_[0] = data_.back();
+  data_.pop_back();
+  heapify_down(0);
 }
 
 
